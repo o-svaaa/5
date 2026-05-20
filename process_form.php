@@ -15,16 +15,27 @@ function getPostValue($key, $default = '') {
     return isset($_POST[$key]) ? trim($_POST[$key]) : $default;
 }
 
-// Функция для генерации случайного логина
+// Функция для генерации случайного логина (ИСПРАВЛЕНА - без mbstring)
 function generateLogin($fullname) {
-    // Очищаем ФИО от спецсимволов
+    // Очищаем ФИО от спецсимволов, оставляем только буквы
     $cleanName = preg_replace('/[^a-zA-Zа-яА-ЯёЁ]/u', '', $fullname);
-    $cleanName = mb_substr($cleanName, 0, 15);
+    
+    // Обрезаем до 15 символов без mbstring
+    $cleanName = substr($cleanName, 0, 15);
+    
+    // Если имя слишком короткое, используем запасной вариант
+    if (strlen($cleanName) < 3) {
+        $cleanName = 'user';
+    }
+    
     $randomNum = rand(100, 999);
-    return strtolower($cleanName) . $randomNum;
+    $result = strtolower($cleanName) . $randomNum;
+    
+    // Убираем возможные проблемы с кодировкой
+    return preg_replace('/[^a-z0-9]/', '', $result);
 }
 
-// Функция для генерации случайного пароля
+// Функция для генерации случайного пароля (без изменений)
 function generatePassword($length = 10) {
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%';
     return substr(str_shuffle($chars), 0, $length);
@@ -182,6 +193,7 @@ $formData = [
     'biography' => getPostValue('bio'),
     'contract' => isset($_POST['contract_agreed']) ? $_POST['contract_agreed'] : ''
 ];
+
 
 // Валидация
 $errors = [];
