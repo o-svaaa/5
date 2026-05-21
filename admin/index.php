@@ -113,6 +113,7 @@ $applications = $stmt->fetchAll();
         </div>
         
         <div class="admin-controls">
+            <a href="stats.php" class="stats-btn">📈 Статистика языков</a>
             <form method="GET" action="" class="search-form">
                 <input type="text" name="search" placeholder="Поиск по ФИО, email или телефону..." 
                        value="<?php echo htmlspecialchars($search); ?>">
