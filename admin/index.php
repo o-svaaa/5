@@ -38,7 +38,7 @@ $searchCondition = '';
 $params = [];
 
 if (!empty($search)) {
-    $searchCondition = "WHERE fullname LIKE :search OR email LIKE :search OR phone LIKE :search";
+    $searchCondition = "WHERE a.fullname LIKE :search OR a.email LIKE :search OR a.phone LIKE :search";
     $params[':search'] = "%$search%";
 }
 
@@ -48,7 +48,7 @@ $limit = 20;
 $offset = ($page - 1) * $limit;
 
 // Получаем общее количество записей
-$countStmt = $pdo->prepare("SELECT COUNT(*) FROM applications $searchCondition");
+$countStmt = $pdo->prepare("SELECT COUNT(*) FROM applications a $searchCondition");
 foreach ($params as $key => $value) {
     $countStmt->bindValue($key, $value);
 }
@@ -56,18 +56,22 @@ $countStmt->execute();
 $totalRecords = $countStmt->fetchColumn();
 $totalPages = ceil($totalRecords / $limit);
 
-// Получаем данные с пагинацией
-$sql = "SELECT a.*, 
-        GROUP_CONCAT(DISTINCT pl.name) as languages,
-        u.login as user_login
-        FROM applications a
-        LEFT JOIN application_languages al ON a.id = al.application_id
-        LEFT JOIN programming_languages pl ON al.language_id = pl.id
-        LEFT JOIN users u ON a.id = u.application_id
-        $searchCondition
-        GROUP BY a.id
-        ORDER BY a.created_at DESC
-        LIMIT $limit OFFSET $offset";
+// ИСПРАВЛЕННЫЙ SQL-запрос - используем подзапросы вместо GROUP BY
+$sql = "
+    SELECT 
+        a.*,
+        (SELECT GROUP_CONCAT(DISTINCT pl.name) 
+         FROM application_languages al 
+         JOIN programming_languages pl ON al.language_id = pl.id 
+         WHERE al.application_id = a.id) as languages,
+        (SELECT u.login 
+         FROM users u 
+         WHERE u.application_id = a.id LIMIT 1) as user_login
+    FROM applications a
+    $searchCondition
+    ORDER BY a.created_at DESC
+    LIMIT $limit OFFSET $offset
+";
 
 $stmt = $pdo->prepare($sql);
 foreach ($params as $key => $value) {
