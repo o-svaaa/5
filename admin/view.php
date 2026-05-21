@@ -22,17 +22,23 @@ try {
 }
 
 $id = $_GET['id'] ?? 0;
+
+// ИСПРАВЛЕННЫЙ SQL-запрос - используем подзапросы
 $stmt = $pdo->prepare("
-    SELECT a.*, 
-           GROUP_CONCAT(DISTINCT pl.name) as languages,
-           u.login as user_login,
-           u.created_at as user_created
+    SELECT 
+        a.*,
+        (SELECT GROUP_CONCAT(DISTINCT pl.name) 
+         FROM application_languages al 
+         JOIN programming_languages pl ON al.language_id = pl.id 
+         WHERE al.application_id = a.id) as languages,
+        (SELECT u.login 
+         FROM users u 
+         WHERE u.application_id = a.id LIMIT 1) as user_login,
+        (SELECT u.created_at 
+         FROM users u 
+         WHERE u.application_id = a.id LIMIT 1) as user_created
     FROM applications a
-    LEFT JOIN application_languages al ON a.id = al.application_id
-    LEFT JOIN programming_languages pl ON al.language_id = pl.id
-    LEFT JOIN users u ON a.id = u.application_id
     WHERE a.id = ?
-    GROUP BY a.id
 ");
 $stmt->execute([$id]);
 $app = $stmt->fetch();
@@ -128,7 +134,17 @@ if (!$app) {
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Пол:</div>
-                    <div class="detail-value"><?php echo $app['gender']; ?></div>
+                    <div class="detail-value">
+                        <?php
+                        $genders = [
+                            'male' => 'Мужской',
+                            'female' => 'Женский',
+                            'other' => 'Другой',
+                            'unspecified' => 'Не указан'
+                        ];
+                        echo $genders[$app['gender']] ?? $app['gender'];
+                        ?>
+                    </div>
                 </div>
             </div>
             
@@ -152,7 +168,7 @@ if (!$app) {
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Дата регистрации:</div>
-                    <div class="detail-value"><?php echo $app['created_at'] ? date('d.m.Y H:i:s', strtotime($app['created_at'])) : '-'; ?></div>
+                    <div class="detail-value"><?php echo $app['user_created'] ? date('d.m.Y H:i:s', strtotime($app['user_created'])) : '-'; ?></div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Согласие с контрактом:</div>
