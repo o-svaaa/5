@@ -238,6 +238,22 @@ body {
     color: white;
     border-color: #3b82f6;
 }
+.stats-btn {
+    background: #8b5cf6;
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.stats-btn:hover {
+    background: #7c3aed;
+    transform: translateY(-1px);
+}
 
 @media (max-width: 768px) {
     body {
