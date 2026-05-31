@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документация проекта | Анкета разработчика</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e0eaf4 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .doc-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+
+        .doc-header {
+            background: linear-gradient(135deg, #1a2a3f, #0f1a2a);
+            color: white;
+            padding: 2rem 2.5rem;
+        }
+
+        .doc-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-header p {
+            opacity: 0.85;
+            font-size: 1rem;
+        }
+
+        .doc-header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .doc-nav {
+            background: #f1f5f9;
+            padding: 0.75rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .doc-nav a {
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .doc-nav a:hover {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+
+        .doc-content {
+            padding: 2rem 2.5rem;
+        }
+
+        .doc-section {
+            margin-bottom: 2.5rem;
+            scroll-margin-top: 80px;
+        }
+
+        .doc-section h2 {
+            color: #1e293b;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #3b82f6;
+            display: inline-block;
+        }
+
+        .doc-section h3 {
+            color: #334155;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .doc-section h4 {
+            color: #475569;
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .file-tree {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .file-tree .folder {
+            color: #fbbf24;
+        }
+
+        .file-tree .file {
+            color: #34d399;
+        }
+
+        .file-tree .comment {
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .info-card.warning {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .info-card.success {
+            border-left-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .flow-diagram {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+
+        .badge-tech {
+            display: inline-block;
+            background: #e2e8f0;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1e293b;
+            margin-right: 0.5rem;
+        }
+
+        .footer {
+            background: #f1f5f9;
+            padding: 1.5rem 2.5rem;
+            text-align: center;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .doc-content {
+                padding: 1.5rem;
+            }
+            .doc-nav {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="doc-container">
+        <div class="doc-header">
+            <h1>📚 Документация проекта</h1>
+            <p>Регистрационная анкета разработчика — архитектура, сессии и cookies</p>
+            <div class="badge">Версия 2.0 | PHP 8+ | MySQL | Сессии + HTTP Basic Auth</div>
+        </div>
+
+        <div class="doc-nav">
+            <a href="#structure">📁 Структура</a>
+            <a href="#sessions">🔐 Сессии</a>
+            <a href="#cookies">🍪 Cookies</a>
+            <a href="#auth">🔑 Авторизация</a>
+            <a href="#flow">🔄 Поток данных</a>
+            <a href="#tech">💡 Технические детали</a>
+        </div>
+
+        <div class="doc-content">
+            <!-- ==================== СТРУКТУРА ==================== -->
+            <div id="structure" class="doc-section">
+                <h2>📁 Файловая структура проекта</h2>
+                <div class="file-tree">
+                    <pre>
+<span class="folder">📁 /5/</span>                                    <span class="comment"># Корень проекта (лабораторная работа №5)</span>
+│
+├── <span class="file">📄 index.php</span>                           <span class="comment"># Главная форма регистрации (публичный доступ)</span>
+├── <span class="file">📄 process_form.php</span>                     <span class="comment"># Обработчик формы + валидация + работа с БД</span>
+├── <span class="file">📄 form.php</span>                            <span class="comment"># Вспомогательные функции (cookies, ошибки, вывод)</span>
+│
+├── <span class="file">📄 login.php</span>                           <span class="comment"># Форма входа для пользователей</span>
+├── <span class="file">📄 edit.php</span>                            <span class="comment"># Редактирование анкеты (только для авторизованных)</span>
+├── <span class="file">📄 logout.php</span>                          <span class="comment"># Завершение сессии пользователя</span>
+├── <span class="file">📄 get_credentials.php</span>                   <span class="comment"># Получение логина/пароля (AJAX, один раз)</span>
+│
+├── <span class="file">📄 success.html</span>                         <span class="comment"># Страница успешного сохранения</span>
+├── <span class="file">📄 error.html</span>                           <span class="comment"># Страница ошибки</span>
+├── <span class="file">📄 style.css</span>                            <span class="comment"># Основные стили всего сайта</span>
+│
+├── <span class="file">📄 documentation.html</span>                    <span class="comment"># Эта страница документации</span>
+│
+└── <span class="folder">📁 admin/</span>                               <span class="comment"># Административная панель (HTTP Basic Auth)</span>
+    │
+    ├── <span class="file">📄 .htaccess</span>                         <span class="comment"># Настройка HTTP-авторизации (Basic Auth)</span>
+    ├── <span class="file">📄 .htpasswd</span>                         <span class="comment"># Хеши паролей администраторов (создать вручную)</span>
+    │
+    ├── <span class="file">📄 index.php</span>                         <span class="comment"># Список всех анкет с пагинацией и поиском</span>
+    ├── <span class="file">📄 view.php</span>                          <span class="comment"># Просмотр деталей конкретной анкеты</span>
+    ├── <span class="file">📄 edit.php</span>                          <span class="comment"># Редактирование анкеты администратором</span>
+    ├── <span class="file">📄 export.php</span>                        <span class="comment"># Экспорт всех данных в CSV</span>
+    ├── <span class="file">📄 stats.php</span>                         <span class="comment"># Статистика по языкам программирования (графики)</span>
+    ├── <span class="file">📄 logout.php</span>                        <span class="comment"># Выход из админ-панели</span>
+    └── <span class="file">📄 style.css</span>                          <span class="comment"># Стили админ-панели</span>
+                    </pre>
+                </div>
+
+                <div class="info-card">
+                    <strong>📌 Важно:</strong> Файлы <code>.htaccess</code> и <code>.htpasswd</code> создаются вручную на сервере.
+                    Файл <code>.htpasswd</code> НЕ должен быть доступен извне — он защищён правилами в .htaccess.
+                </div>
+            </div>
+
+            <!-- ==================== СЕССИИ ==================== -->
+            <div id="sessions" class="doc-section">
+                <h2>🔐 Как работают сессии на этом сайте</h2>
+                
+                <h3>Что такое сессия?</h3>
+                <p>
+                    Сессия — это механизм сохранения состояния между HTTP-запросами. 
+                    В отличие от cookies, данные сессии хранятся на сервере, а клиенту 
+                    передаётся только идентификатор (Session ID).
+                </p>
+
+                <h3>Где и как используются сессии?</h3>
+                <div class="code-block">
+                    <pre>
+// В каждом файле, где нужна сессия:
+session_start();  // Обязательно в начале файла!
+
+// Сохранение данных в сессию:
+$_SESSION['user_id'] = $userId;
+$_SESSION['application_id'] = $applicationId;
+$_SESSION['user_login'] = $generatedLogin;
+
+// Проверка авторизации:
+if (isset($_SESSION['user_id'])) {
+    // Пользователь авторизован
+}
+
+// Удаление сессии (выход):
+session_destroy();</pre>
+                </div>
+
+                <h3>Сценарии использования сессий:</h3>
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr><th>Файл</th><th>Что хранится в сессии</th><th>Зачем</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>process_form.php</code></td><td>user_id, application_id, user_login, generated_login, generated_password</td><td>Автоматическая авторизация после регистрации</td></tr>
+                            <tr><td><code>login.php</code></td><td>user_id, application_id, user_login</td><td>Авторизация существующего пользователя</td></tr>
+                            <tr><td><code>edit.php</code></td><td>user_id, application_id, user_login</td><td>Проверка доступа к редактированию</td></tr>
+                            <tr><td><code>logout.php</code></td><td>—</td><td>Уничтожение сессии при выходе</td></tr>
+                            <tr><td><code>get_credentials.php</code></td><td>generated_login, generated_password</td><td>Однократное отображение пароля</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-card success">
+                    <strong>✅ Преимущества сессий перед cookies:</strong>
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li>Данные хранятся на сервере — безопаснее</li>
+                        <li>Нет ограничения на объём данных (4KB, как у cookies)</li>
+                        <li>Пользователь не может подменить данные сессии</li>
+                        <li>Автоматическое удаление при закрытии браузера (или через session_destroy)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ==================== COOKIES ==================== -->
+            <div id="cookies" class="doc-section">
+                <h2>🍪 Как работают Cookies на этом сайте</h2>
+
+                <h3>Что такое Cookies?</h3>
+                <p>
+                    Cookies — это небольшие фрагменты данных (до 4KB), которые сервер отправляет браузеру,
+                    а браузер хранит их на компьютере пользователя и отправляет обратно при каждом запросе.
+                </p>
+
+                <h3>Какие cookies использует сайт?</h3>
+                <div class="code-block">
+                    <pre>
+// Установка cookie (в process_form.php):
+setcookie('form_data', $cookie_value, time() + 365*24*60*60, '/');
+setcookie('form_errors', $cookie_value, 0, '/');
+
+// Чтение cookie (в index.php и form.php):
+$saved_data = isset($_COOKIE['form_data']) ? json_decode($_COOKIE['form_data'], true) : null;
+
+// Удаление cookie (после прочтения ошибок):
+setcookie('form_errors', '', time() - 3600, '/');</pre>
+                </div>
+
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr><th>Cookie</th><th>Содержимое</th><th>Время жизни</th><th>Где используется</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>form_data</code></td>
+                                <td>JSON с данными формы (ФИО, email, телефон, языки и т.д.)</td>
+                                <td>365 дней</td>
+                                <td><code>index.php</code> — автоматическое заполнение формы при повторном визите</td>
+                            </tr>
+                            <tr>
+                                <td><code>form_errors</code></td>
+                                <td>JSON с ошибками валидации (поле → сообщение об ошибке)</td>
+                                <td>До конца сессии браузера</td>
+                                <td><code>index.php</code> — отображение ошибок после редиректа</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Схема работы с cookies при отправке формы:</h3>
+                <div class="flow-diagram">
+                    <pre>
+1. Пользователь заполняет форму → <strong>POST</strong> → process_form.php
+                                                    ↓
+                                        ❌ Есть ошибки валидации?
+                                                    ↓
+                                    ДА → сохраняем ошибки в COOKIE
+                                    ↓
+                                    Редирект на index.php
+                                    ↓
+                                    Читаем cookie с ошибками
+                                    ↓
+                                    Отображаем ошибки рядом с полями
+                                    ↓
+                                    Удаляем cookie с ошибками (показали один раз)
+                                    </pre>
+                </div>
+
+                <div class="info-card warning">
+                    <strong>⚠️ Важно:</strong> Cookies для <code>form_data</code> сохраняются 
+                    <strong>только для неавторизованных пользователей</strong>. 
+                    При авторизации данные берутся из базы данных, а не из cookies.
+                </div>
+            </div>
+
+            <!-- ==================== АВТОРИЗАЦИЯ ==================== -->
+            <div id="auth" class="doc-section">
+                <h2>🔑 Два типа авторизации</h2>
+
+                <h3>1. Пользовательская авторизация (сессии)</h3>
+                <p>
+                    Используется для обычных пользователей, которые хотят редактировать свою анкету.
+                </p>
+                <div class="code-block">
+                    <pre>
+// process_form.php — генерация логина и пароля при первой отправке
+$generatedLogin = generateLogin($formData['fullname']);  // например: ivanov123
+$generatedPassword = generatePassword();                // например: aB4#kL9@mN
+$passwordHash = password_hash($generatedPassword, PASSWORD_DEFAULT);
+
+// Сохранение в БД
+INSERT INTO users (login, password_hash, application_id) VALUES (..., ..., ...);
+
+// Автоматическая авторизация
+$_SESSION['user_id'] = $userId;
+$_SESSION['application_id'] = $applicationId;</pre>
+                </div>
+
+                <h3>2. Административная авторизация (HTTP Basic Auth)</h3>
+                <p>
+                    Используется для доступа к админ-панели (<code>/admin/</code>).
+                    Это встроенный в веб-сервер механизм аутентификации.
+                </p>
+                <div class="code-block">
+                    <pre>
+# .htaccess — настройка HTTP Basic Auth
+AuthType Basic
+AuthName "Admin Panel - Authorization Required"
+AuthUserFile /home/u82814/www/5/admin/.htpasswd
+Require valid-user
+
+# .htpasswd — хранилище логинов и хешей паролей
+# Создаётся командой: htpasswd -c .htpasswd admin
+admin:$2y$10$YourHashedPasswordHere</pre>
+                </div>
+
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr><th>Характеристика</th><th>Пользовательская (сессии)</th><th>Административная (HTTP Basic)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Механизм</td><td>Сессии PHP</td><td>Встроенный в Apache/Nginx</td></tr>
+                            <tr><td>Хранение данных</td><td>MySQL (таблица users)</td><td>.htpasswd файл</td></tr>
+                            <tr><td>Интерфейс входа</td><td>HTML-форма (login.php)</td><td>Всплывающее окно браузера</td></tr>
+                            <tr><td>Возможность выхода</td><td>Есть (logout.php)</td><td>Сложно (требует закрытия браузера)</td></tr>
+                            <tr><td>Где используется</td><td>edit.php, process_form.php</td><td>Все файлы в папке /admin/</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ==================== ПОТОК ДАННЫХ ==================== -->
+            <div id="flow" class="doc-section">
+                <h2>🔄 Поток данных пользователя</h2>
+
+                <div class="flow-diagram">
+                    <pre>
+<strong>СЦЕНАРИЙ 1: НОВЫЙ ПОЛЬЗОВАТЕЛЬ</strong>
+
+    index.php (форма)
+         │
+         ▼
+    POST → process_form.php
+         │
+         ├── Валидация полей
+         │
+         ├── ❌ ошибки → сохраняем в Cookies → редирект на index.php
+         │
+         └── ✅ успех → Сохраняем в БД
+                      │
+                      ├── Создаём запись в applications
+                      ├── Создаём запись в application_languages
+                      ├── Генерируем логин/пароль → users
+                      ├── Сохраняем данные в сессию (авто-вход)
+                      │
+                      ▼
+                  success.html (показывает логин/пароль)
+
+
+
+<strong>СЦЕНАРИЙ 2: СУЩЕСТВУЮЩИЙ ПОЛЬЗОВАТЕЛЬ (ВХОД)</strong>
+
+    login.php (форма входа)
+         │
+         ▼
+    POST → login.php (сам с собой)
+         │
+         ├── Проверяем логин/пароль в таблице users
+         │
+         ├── ❌ неверно → показываем ошибку
+         │
+         └── ✅ верно → сохраняем в сессию
+                      │
+                      ▼
+                  edit.php (форма редактирования)
+                      │
+                      ▼
+                  process_form.php (с параметром update_data=1)
+                      │
+                      ├── UPDATE applications SET ...
+                      ├── DELETE + INSERT в application_languages
+                      │
+                      ▼
+                  success.html (с сообщением "Данные обновлены")</pre>
+                </div>
+            </div>
+
+            <!-- ==================== ТЕХНИЧЕСКИЕ ДЕТАЛИ ==================== -->
+            <div id="tech" class="doc-section">
+                <h2>💡 Технические детали</h2>
+
+                <h3>Безопасность</h3>
+                <ul>
+                    <li><strong>Хеширование паролей:</strong> используется <code>password_hash()</code> с алгоритмом BCRYPT</li>
+                    <li><strong>Защита от SQL-инъекций:</strong> все запросы через PDO с подготовленными выражениями</li>
+                    <li><strong>Защита от XSS:</strong> <code>htmlspecialchars()</code> при выводе данных</li>
+                    <li><strong>HTTP Basic Auth:</strong> рекомендуется использовать HTTPS, так как пароль передаётся в base64</li>
+                </ul>
+
+                <h3>Валидация полей</h3>
+                <ul>
+                    <li><strong>ФИО:</strong> только буквы (русские/английские), пробелы, дефисы. Длина ≤ 150 символов</li>
+                    <li><strong>Email:</strong> стандартный формат email, длина ≤ 100 символов</li>
+                    <li><strong>Телефон:</strong> цифры, +, пробелы, скобки, дефисы. Хотя бы одна цифра</li>
+                    <li><strong>Языки программирования:</strong> проверка существования в таблице <code>programming_languages</code></li>
+                    <li><strong>Биография:</strong> допустимы буквы, цифры, знаки препинания, спецсимволы. Длина ≤ 10000 символов</li>
+                </ul>
+
+                <h3>Генерация логина</h3>
+                <div class="code-block">
+                    <pre>
+// process_form.php
+function generateLogin($fullname) {
+    // Оставляем только буквы
+    $cleanName = preg_replace('/[^a-zA-Zа-яА-ЯёЁ]/u', '', $fullname);
+    // Берём первые 15 символов
+    $cleanName = substr($cleanName, 0, 15);
+    // Добавляем случайное число от 100 до 999
+    return strtolower($cleanName) . rand(100, 999);
+}</pre>
+                </div>
+
+                <h3>Структура базы данных</h3>
+                <div class="code-block">
+                    <pre>
+<strong>applications</strong> — основная таблица с анкетами
+├── id (INT UNSIGNED, PRIMARY KEY)
+├── fullname (VARCHAR 150)
+├── email (VARCHAR 100)
+├── phone (VARCHAR 50, NULL)
+├── birthdate (DATE, NULL)
+├── gender (ENUM: male/female/other/unspecified)
+├── biography (TEXT, NULL)
+├── contract_agreed (TINYINT 1)
+└── created_at (TIMESTAMP)
+
+<strong>programming_languages</strong> — справочник языков
+├── id (INT UNSIGNED, PRIMARY KEY)
+└── name (VARCHAR 50, UNIQUE)
+
+<strong>application_languages</strong> — связь many-to-many
+├── application_id (INT UNSIGNED, FK → applications.id)
+└── language_id (INT UNSIGNED, FK → programming_languages.id)
+
+<strong>users</strong> — учётные данные пользователей
+├── id (INT UNSIGNED, PRIMARY KEY)
+├── login (VARCHAR 50, UNIQUE)
+├── password_hash (VARCHAR 255)
+├── application_id (INT UNSIGNED, FK → applications.id)
+└── created_at (TIMESTAMP)</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📚 Проект выполнен в рамках лабораторной работы №5<br>
+            🔐 Сессии для авторизации пользователей | 🍪 Cookies для временного хранения данных формы<br>
+            📅 Актуально на 2025 год</p>
+        </div>
+    </div>
+</body>
+</html>
